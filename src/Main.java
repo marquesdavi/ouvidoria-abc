@@ -2,18 +2,48 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 
 public class Main {
+    public static Ouvidoria ouvidoriaObj = new Ouvidoria();
+    static void screenList(Ouvidoria reclamacoesList){
+        String reclamacoes = reclamacoesList.listarReclamacoes();
 
-    static void screenList(){
-
+        JOptionPane.showMessageDialog(null, reclamacoes);
     }
 
     static void screenAdd(){
-        
+        int code = Integer.parseInt(JOptionPane.showInputDialog("Digite o codigo da reclamação: "));
+        String titulo = JOptionPane.showInputDialog("Digite um titulo para a sua reclamação: ");
+        String reclamacao = JOptionPane.showInputDialog("Digite a sua reclamação: ");
+        String autor = JOptionPane.showInputDialog("Digite o seu nome: ");
+        String dateTime = "" + java.time.LocalDate.now();
+
+        ouvidoriaObj.adicionarReclamacao(code, reclamacao, autor, dateTime, titulo);
+    }
+
+    static void screenRemove(){
+        screenList(ouvidoriaObj);
+        String codeStr = JOptionPane.showInputDialog("Digite codigo da reclamação a ser excluida: ");
+        int code = Integer.parseInt(codeStr);
+
+        //ouvidoriaObj.removerReclamacao(code);
+    }
+
+    static void screenUpdate(){
+
+    }
+
+    static void screenGetById(){
+
     }
 
     public static void main(String args[]) {
+        UIManager UI=new UIManager();
+        UI.put("OptionPane.background",new ColorUIResource(7, 20, 30));
+        UI.put("OptionPane.messageForeground", new ColorUIResource(255, 255, 255));
+        UI.put("Panel.background",new ColorUIResource(7, 20, 30));
 
         Font fontePersonalizada = new Font("Courier", Font.BOLD, 20);
         JFrame screenFrame = new JFrame("Ouvidoria Universidade ABC");
@@ -36,7 +66,7 @@ public class Main {
         btnList.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicou");
+                screenList(ouvidoriaObj);
             }
         });
 
@@ -48,7 +78,7 @@ public class Main {
         btnAdd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicou");
+                screenAdd();
             }
         });
 
@@ -60,7 +90,7 @@ public class Main {
         btnRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Clicou");
+                screenRemove();
             }
         });
 
