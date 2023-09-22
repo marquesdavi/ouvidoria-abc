@@ -5,6 +5,14 @@ import javax.swing.*;
 
 public class Main {
 
+    static void screenList(){
+
+    }
+
+    static void screenAdd(){
+        
+    }
+
     public static void main(String args[]) {
 
         Font fontePersonalizada = new Font("Courier", Font.BOLD, 20);
