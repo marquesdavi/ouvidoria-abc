@@ -1,9 +1,17 @@
 import java.util.ArrayList;
-import java.util.stream.IntStream;
 
 public class Ouvidoria {
 
     ArrayList<Reclamacoes> listaReclamacoes = new ArrayList<Reclamacoes>();
+
+    static boolean isValid(String verification) {
+        String noSpace = verification.trim();
+
+        if (noSpace != null && noSpace != "") {
+            return true;
+        }
+        return false;
+    }
 
     public String listarReclamacoes() {
         String listagemReclamacoes = "Lista de Reclamações \n\t" +
@@ -11,13 +19,11 @@ public class Ouvidoria {
 
         if (listaReclamacoes.size() == 0) {
             listagemReclamacoes = "Sua lista está vazia";
-        }
-        else {
+        } else {
             for (int i = 0; i < listaReclamacoes.size(); i++) {
-                String itemReclamacao =  "\n  Titulo: " + listaReclamacoes.get(i).getTitulo() +
-                        "\n\t  Descrição: " + listaReclamacoes.get(i).getReclamacao() +
+                String itemReclamacao = "Codigo: " + listaReclamacoes.get(i).getCodigo() +
+                        "\n  Titulo: " + listaReclamacoes.get(i).getTitulo() +
                         "\n\t  Autor: " + listaReclamacoes.get(i).getAutor() +
-                        "\n\t  Data: " + listaReclamacoes.get(i).getData() +
                         "\n\t ______________________________________________________\n";
 
                 listagemReclamacoes = listagemReclamacoes + itemReclamacao;
@@ -27,21 +33,22 @@ public class Ouvidoria {
         return listagemReclamacoes;
     }
 
-    // public String listaReclamacoesPorCodigo(int codigoParaPesquisa) {
-    // 	Reclamacoes minhaBuscaReclamacoes = listaReclamacoes.get(codigoParaPesquisa - 1);
-    //     String resultadoBuscaReclamacao = "Resultado: \n\t " +
-    //     		minhaBuscaReclamacoes.getTitulo() +
-    //         "\n\t Descrição: " + minhaBuscaReclamacoes.getReclamacao() +
-    //         "\n\t Autor: " + minhaBuscaReclamacoes.getAutor() +
-    //         "\n\t Data: " + minhaBuscaReclamacoes.getData();
+    public String mostraReclamacaoPorCodigo(int codigoParaPesquisa) {
+        Reclamacoes minhaBuscaReclamacoes = listaReclamacoes.get(codigoParaPesquisa - 1);
+        String resultadoBuscaReclamacao = "Resultado: " +
+                "\n\t Codigo: " + minhaBuscaReclamacoes.getCodigo() +
+                "\n\t Titulo: " + minhaBuscaReclamacoes.getTitulo() +
+                "\n\t Descrição: " + minhaBuscaReclamacoes.getReclamacao() +
+                "\n\t Autor: " + minhaBuscaReclamacoes.getAutor() +
+                "\n\t Data: " + minhaBuscaReclamacoes.getData();
 
-    //     return resultadoBuscaReclamacao;
+        return resultadoBuscaReclamacao;
 
-    // }
+    }
 
     public String adicionarReclamacao(int codigo, String reclamacao, String autor, String data, String titulo) {
         Reclamacoes novaReclamacao;
-        if (titulo != null && autor != null && data != null) {
+        if (isValid(titulo) && isValid(autor) && isValid(data)) {
             novaReclamacao = new Reclamacoes(codigo, reclamacao, autor, data, titulo);
             listaReclamacoes.add(novaReclamacao);
         } else {
@@ -49,28 +56,27 @@ public class Ouvidoria {
             listaReclamacoes.add(novaReclamacao);
         }
 
-            return "Adicionado com Sucesso!";
+        return "Adicionado com Sucesso!";
     }
 
-//     public String removerReclamacao(int posicaoLista) {
-//
-//        if (listaReclamacoes.contains(posicaoLista - 1)){
-//            listaReclamacoes.remove(posicaoLista - 1);
-//            return "Reclamação " + listaReclamacoes.get(posicaoLista - 1).getCodigo() + "Removido com sucesso!";
-//        } else {
-//            return "A reclamação mencionada não existe!";
-//        }
-//     }
+    public String removerReclamacao(int posicaoLista) {
+        for (Reclamacoes reclamacao : listaReclamacoes) {
+            if (reclamacao.getCodigo() == posicaoLista) {
+                listaReclamacoes.remove(reclamacao);
+                return "Reclamação de ID " + posicaoLista + " removida com sucesso!";
+            }
+        }
 
-//     public void alterarReclamaçãoPeloCodigo(int codigoParaPesquisa, String reclamacaoAlterada ){
-//         Reclamacoes reclamacoesPesquisadas = listaReclamacoes.get(codigoParaPesquisa-1);
-//         reclamacoesPesquisadas.setTitulo(reclamacaoAlterada);
-//
-//         return "Alterado com sucesso!";
-//
-//
-//     }
-
-
+        return "A reclamação mencionada não existe!";
     }
+
+    public String alterarReclamaçãoPeloCodigo(int codigoParaPesquisa, String reclamacaoAlterada) {
+        if (isValid(reclamacaoAlterada)) {
+            Reclamacoes reclamacoesPesquisadas = listaReclamacoes.get(codigoParaPesquisa - 1);
+            reclamacoesPesquisadas.setReclamacao(reclamacaoAlterada);
+            return "Alterado com sucesso!";
+        }
+        return "Insira uma reclamação e tente novamente.";
+    }
+}
 
