@@ -51,6 +51,16 @@ public class Main {
     }
 
     public static void main(String args[]) {
+        /*
+        * Projeto Ouvidoria para a Universidade ABC - Grupo:
+        - Daví Rodrigues Marques
+        - Edno Brendo Costa e Silva
+        - Caio Souza Santos
+        - Kevin de Lima Tenório
+        - Maria Eduarda Almeida Ramos
+        - Pedro Lucas da Silva
+        */
+
         UIManager UI = new UIManager();
         UI.put("OptionPane.background", new ColorUIResource(7, 20, 30));
         UI.put("OptionPane.messageForeground", new ColorUIResource(255, 255, 255));
